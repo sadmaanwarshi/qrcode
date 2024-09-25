@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Your QR Code</title>
+</head>
+<body>
+    <h2>Your QR Code:</h2>
+    <img src="<%= qrCodeUrl %>" alt="QR Code"/>
+    <form action="/download" method="POST">
+        <input type="hidden" name="qrCodeUrl" value="<%= qrCodeUrl %>">
+        <button type="submit">Download as PDF</button>
+    </form>
+</body>
+</html>

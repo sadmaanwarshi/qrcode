@@ -1,0 +1,17 @@
+{
+  "name": "qr-code",
+  "version": "1.0.0",
+  "description": "This is web Application where you Can Generate Qr-code of any data",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "sadmaan warshi",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.21.0",
+    "html-pdf": "^3.0.1"
+  }
+}

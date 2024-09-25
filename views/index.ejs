@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF With QR Code Generator</title>
+    <link rel="stylesheet" href="./styles/style.css">
+</head>
+<body>
+    <div class="main-container">
+        <div class="header">
+            <h1>PDF With QR Code Generator</h1>
+            <div class="team-name">Tech Titans</div>
+        </div>
+        <div class="content">
+            <div class="left-panel">
+                <form action="/generate" method="POST">
+                    <div class="file-type-dropdown">
+                        <label for="fileType">QR Color:</label>
+                        <select id="fileType" name="colorchoice">
+                            <option value="Red">red</option>
+                            <option value="blue">blue</option>
+                        </select>
+                    </div>
+                    <div class="info-input">
+                        <textarea id="info" name="text" placeholder="Add a cover page with a title, description, and a website URL..." ></textarea>
+                    </div>
+                    <div class="upload-section">
+                        <label for="fileUpload">Logo URL</label>
+                        <input type="text" id="fileUpload" name="fileUpload">
+                    </div>
+                    <!-- <div class="tracking-switch">
+                        <label for="tracking">Scan Tracking:</label>
+                        <input type="checkbox" id="tracking" name="tracking">
+                    </div> -->
+                    <button class="generate-button" type="submit">Generate QR Code</button>
+                </form>
+            </div>
+            <div class="right-panel">
+                <% if (qrCodeUrl) { %>
+                <div id="qrcode-container">
+                    <img src="<%= qrCodeUrl %>" alt="Generated QR Code">
+                </div>
+                <form action="/download" method="POST">
+                    <input type="hidden" name="qrCodeUrl" value="<%= qrCodeUrl %>">
+                    <button type="submit" class="download-button">Download as PDF</button>
+               
+                <div class="frame-selection">
+                    <!-- <h3>Title</h3> -->
+                    
+                    <div class="frames">
+                        <label for="input-title">Enter Title</label>
+                        <input type="text" name="input-title" placeholder= "Enter the title here.." required>
+                    </div>
+                </div>
+            </form>
+            <% } %>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>Powered by Tech Titans &copy; 2024</p>
+    </footer>
+</body>
+</html>

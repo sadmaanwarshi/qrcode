@@ -1,0 +1,242 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Main Container with Linear Gradient Background */
+.main-container {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+    background: linear-gradient(135deg, #f3ec78, #af4261);
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Header */
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    color: #ffffff;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.team-name {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.2rem;
+    position: absolute;
+    top: 30px;
+    right: 138px;
+    background-color: rgba(0, 123, 255, 0.1);
+    padding: 8px 16px;
+    border-radius: 5px;
+    color: #ffffff;
+    font-weight: bold;
+    border: 1px solid #ffffff;
+}
+
+@media (max-width: 768px) {
+    .team-name {
+        position: static;
+        margin-top: 10px;
+        display: inline-block;
+    }
+}
+
+/* Content */
+.content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+@media (max-width: 768px) {
+    .content {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+/* Left Panel */
+.left-panel {
+    width: 45%;
+    padding: 20px;
+    border-right: 1px solid #ddd;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+    .left-panel {
+        width: 100%;
+        border-right: none;
+    }
+}
+
+/* Right Panel */
+.right-panel {
+    width: 50%;
+    padding: 20px;
+    text-align: center;
+    background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
+    border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+    .right-panel {
+        width: 100%;
+    }
+}
+
+/* File Type Dropdown */
+.file-type-dropdown {
+    margin-bottom: 20px;
+}
+
+#fileType {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-top: 5px;
+    background-color: #f1f1f1;
+}
+
+/* Info Input */
+.info-input textarea {
+    width: 100%;
+    height: 120px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    resize: none;
+    margin-bottom: 20px;
+    background-color: #fafafa;
+}
+
+/* Generate Button with Gradient */
+.generate-button {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, #28a745, #a2ff99);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.generate-button:hover {
+    background: linear-gradient(135deg, #218838, #8cff66);
+}
+
+/* Upload Section */
+.upload-section {
+    margin-bottom: 20px;
+}
+
+.upload-section input[type="file"] {
+    display: block;
+    margin-top: 10px;
+}
+
+/* Tracking Switch */
+.tracking-switch {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.tracking-switch label {
+    margin-right: 10px;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+/* QR Code Container */
+#qrcode-container {
+    width: 200px;
+    height: 200px;
+    border: 2px solid #ffffff;
+    margin: 0 auto 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    background-color: #ffffff;
+}
+
+/* Frame Selection */
+.frame-selection {
+    margin-bottom: 20px;
+}
+
+.frames {
+    display: flex;
+    justify-content: center;
+}
+
+.frame {
+    width: 60px;
+    height: 60px;
+    border: 2px solid #ddd;
+    margin: 0 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.frame:hover {
+    border-color: #007bff;
+    background-color: #f0f8ff;
+}
+
+.frame.selected {
+    border-color: #007bff;
+    background-color: #e6f0ff;
+}
+
+/* Download Buttons */
+.download-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.download-button {
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #ff5733, #ff9068);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.download-button:hover {
+    background: linear-gradient(135deg, #e74c3c, #ff756d);
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #007bff;
+    color: white;
+    font-size: 0.9rem;
+    box-shadow: 0px -4px 15px rgba(0, 0, 0, 0.1);
+    margin-top: 40px;
+    border-radius: 10px 10px 0 0;
+}
