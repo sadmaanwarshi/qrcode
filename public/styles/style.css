@@ -48,10 +48,6 @@ body {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     flex: 1;
     border: 1px solid black;
-<<<<<<< HEAD
-=======
-    
->>>>>>> 20b15a8341b82ba515478736420caf385e962ef9
 }
 
 /* Header */
@@ -64,24 +60,9 @@ body {
     color: black;
     font-size: 2.4rem;
     font-family: cursive;
-<<<<<<< HEAD
     padding: 10px;
 }
 
-=======
-    /* border: 4px solid blc; */
-    padding: 10px;
-}
-
-/* .team-name {
-    font-weight: 600;
-    font-size: 1.4rem;
-    text-align: center;
-    color: #007bff;
-    margin-top: 10px;
-} */
-
->>>>>>> 20b15a8341b82ba515478736420caf385e962ef9
 /* Content Layout */
 .content {
     display: flex;
@@ -129,14 +110,8 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-<<<<<<< HEAD
 #fileUpload {
     border-radius: 10px;
-=======
-#fileUpload{
-    border-radius: 10px;
-    /* padding: 10px; */
->>>>>>> 20b15a8341b82ba515478736420caf385e962ef9
 }
 
 #fileType {
@@ -145,13 +120,10 @@ body {
     border: 1px solid #ddd;
     border-radius: 4px;
     margin-top: 5px;
-<<<<<<< HEAD
 }
 
 .info-input {
     border-radius: 10px;
-=======
->>>>>>> 20b15a8341b82ba515478736420caf385e962ef9
 }
 
 .info-input{
@@ -169,18 +141,10 @@ body {
     background-color: #fafafa;
     font-family: "Montserrat", sans-serif;
     font-weight: 500;
-<<<<<<< HEAD
 }
 
 #info:hover {
     border: 2px solid #2E3192;
-=======
-
-}
-
-#info:hover{
-    border: 2px solid #2E3192 ;
->>>>>>> 20b15a8341b82ba515478736420caf385e962ef9
 }
 
 /* Upload Section */
@@ -273,7 +237,6 @@ footer {
     color: white;
     font-size: 0.9rem;
     box-shadow: 0px -4px 15px rgba(0, 0, 0, 0.2);
-<<<<<<< HEAD
 }
 
 .inside-left {
@@ -346,8 +309,6 @@ footer {
     .main-container {
         padding: 15px;
     }
-=======
->>>>>>> 20b15a8341b82ba515478736420caf385e962ef9
 }
 
 .inside-left {
