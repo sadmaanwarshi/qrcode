@@ -7,14 +7,21 @@
     <link rel="stylesheet" href="./styles/style.css">
 </head>
 <body>
+    <header id="team-header">
+        <img id="logo"  src="./images/logotechtitans.png" alt="Tech Titans Logo">
+        <h1 id="team">Tech Titans</h1>
+    </header>
+
     <div class="main-container">
         <div class="header">
+            <!-- <header id="team">Tech Titans</header> -->
+            
             <h1>PDF With QR Code Generator</h1>
-            <div class="team-name">Tech Titans</div>
+            <!-- <div class="team-name">Tech Titans</div> -->
         </div>
         <div class="content">
             <div class="left-panel">
-                <form action="/generate" method="POST">
+                <form class="inside-left" action="/generate" method="POST">
                     <div class="file-type-dropdown">
                         <label for="fileType">QR Color:</label>
                         <select id="fileType" name="colorchoice">
