@@ -48,58 +48,78 @@ app.post('/generate', (req, res) => {
 
 app.post('/download', (req, res) => {
     const qrCodeUrl = req.body.qrCodeUrl;
-    const qrcolor = req.body.qrcolor;
-    console.log(qrcolor);
+    const inputTitle = req.body.inputTitle;
+    console.log(inputTitle);
     // Enhanced HTML with styles for better PDF appearance
     const html = `
     <html>
     <head>
         <style>
             body {
-                font-family: Arial, sans-serif;
+                font-family: 'Arial', sans-serif;
                 margin: 0;
-                padding: 20px;
-                background-color: white;
+                padding: 0;
+                background-color: #fff;
             }
             .container {
                 width: 100%;
-                max-width: 600px;
-                margin: 0 auto;
-                padding: 20px;
-                border: 2px solid #333;
-                border-radius: 8px;
+                max-width: 650px;
+                margin: 40px auto;
+                padding: 30px;
                 background-color: #fff;
-                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                border-radius: 12px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+                border: 3px solid #000; /* Changed border color to black */
+            }
+            .main-title {
+                font-size: 30px;
+                color: #000;
+                text-align: center;
+                margin-bottom: 10px;
+                font-weight: bold;
+                text-transform: uppercase;
             }
             h1 {
+                font-size: 26px;
+                color: #000;
                 text-align: center;
-                color: #333;
+                margin-bottom: 20px;
             }
             img {
                 display: block;
                 margin: 20px auto;
-                max-width: 100%;
+                width: 350px; /* Slightly increased image size */
                 height: auto;
-                color: red;
+                border: 2px solid #000; /* Changed border color to black */
+                border-radius: 8px;
             }
             .footer {
                 text-align: center;
                 margin-top: 20px;
-                font-size: 14px;
-                color: #777;
+                font-size: 13px;
+                color: #666;
+            }
+            .footer p {
+                margin: 0;
+            }
+            .footer p span {
+                color: #000;
+                font-weight: bold;
             }
         </style>
     </head>
     <body>
         <div class="container">
+            <div class="main-title">${inputTitle}</div> <!-- Added an extra title element -->
             <h1>Your QR Code</h1>
             <img src="${qrCodeUrl}" alt="QR Code"/>
             <div class="footer">
-                <p>Generated with PDF with QR Code Generator</p>
+                <p>Generated with <span>PDF with QR Code Generator</span></p>
             </div>
         </div>
     </body>
-    </html>`;
+</html>
+`;
 
     pdf.create(html).toFile('./pdfs/qr-code.pdf', (err, result) => {
         if (err) return res.send("Error generating PDF");
