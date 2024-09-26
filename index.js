@@ -52,73 +52,104 @@ app.post('/download', (req, res) => {
     console.log(inputTitle);
     // Enhanced HTML with styles for better PDF appearance
     const html = `
-    <html>
-    <head>
-        <style>
-            body {
-                font-family: 'Arial', sans-serif;
-                margin: 0;
-                padding: 0;
-                background-color: #fff;
-            }
-            .container {
-                width: 100%;
-                max-width: 650px;
-                margin: 40px auto;
-                padding: 30px;
-                background-color: #fff;
-                border-radius: 12px;
-                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-                border: 3px solid #000; /* Changed border color to black */
-            }
+   <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fff;
+        }
+        .container {
+            width: 90%; /* Changed to a percentage for responsiveness */
+            max-width: 650px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            border: 3px solid #000; /* Changed border color to black */
+        }
+        .main-title {
+            font-size: 30px;
+            color: #000;
+            text-align: center;
+            margin-bottom: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        h1 {
+            font-size: 26px;
+            color: #000;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        img {
+            display: block;
+            margin: 20px auto;
+            width: 100%; /* Make image responsive */
+            max-width: 300px; /* Decreased max width for the QR code */
+            height: auto;
+            border: 2px solid #000; /* Changed border color to black */
+            border-radius: 8px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #666;
+        }
+        .footer p {
+            margin: 0;
+        }
+        .footer p span {
+            color: #000;
+            font-weight: bold;
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 768px) {
             .main-title {
-                font-size: 30px;
-                color: #000;
-                text-align: center;
-                margin-bottom: 10px;
-                font-weight: bold;
-                text-transform: uppercase;
+                font-size: 24px;
             }
             h1 {
-                font-size: 26px;
-                color: #000;
-                text-align: center;
-                margin-bottom: 20px;
-            }
-            img {
-                display: block;
-                margin: 20px auto;
-                width: 350px; /* Slightly increased image size */
-                height: auto;
-                border: 2px solid #000; /* Changed border color to black */
-                border-radius: 8px;
+                font-size: 22px;
             }
             .footer {
-                text-align: center;
-                margin-top: 20px;
-                font-size: 13px;
-                color: #666;
+                font-size: 12px;
             }
-            .footer p {
-                margin: 0;
+        }
+
+        @media (max-width: 480px) {
+            .main-title {
+                font-size: 20px;
             }
-            .footer p span {
-                color: #000;
-                font-weight: bold;
+            h1 {
+                font-size: 20px;
             }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <div class="main-title">${inputTitle}</div> <!-- Added an extra title element -->
-            <h1>Your QR Code</h1>
-            <img src="${qrCodeUrl}" alt="QR Code"/>
-            <div class="footer">
-                <p>Generated with <span>PDF with QR Code Generator</span></p>
-            </div>
+            img {
+                max-width: 80%; /* Adjust image width for small screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="main-title">${inputTitle}</div> <!-- Added an extra title element -->
+        <h1>Your QR Code</h1>
+        <img src="${qrCodeUrl}" alt="QR Code"/>
+        <div class="footer">
+            <p>Generated with <span> Tech Titans QR Code Generator</span></p>
         </div>
-    </body>
+    </div>
+</body>
 </html>
+
+
 `;
 
     pdf.create(html).toFile('./pdfs/qr-code.pdf', (err, result) => {
