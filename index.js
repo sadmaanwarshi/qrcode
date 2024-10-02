@@ -2,13 +2,15 @@ import express from "express";
 import bodyParser from "body-parser"; 
 import pdf from 'html-pdf';
 import fs from 'fs';
+import path from 'path';
 
 const app = express();
 const port = 3000;
 
 // Ensure the 'pdfs' directory exists
-if (!fs.existsSync('./pdfs')) {
-    fs.mkdirSync('./pdfs');
+const pdfDir = path.resolve('pdfs');
+if (!fs.existsSync(pdfDir)) {
+    fs.mkdirSync(pdfDir);
 }
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -152,10 +154,15 @@ app.post('/download', (req, res) => {
 
 `;
 
-    pdf.create(html).toFile('./pdfs/qr-code.pdf', (err, result) => {
-        if (err) return res.send("Error generating PDF");
-        res.download(result.filename);
-    });
+pdf.create(html).toBuffer((err, buffer) => {
+    if (err) {
+        return res.status(500).send("Error generating PDF");
+    }
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', 'attachment; filename="qr-code.pdf"');
+    res.send(buffer);  // Send PDF buffer directly
+});
+
 });
 
 
