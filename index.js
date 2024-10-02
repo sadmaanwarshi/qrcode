@@ -154,14 +154,24 @@ app.post('/download', (req, res) => {
 
 `;
 
-pdf.create(html).toBuffer((err, buffer) => {
-    if (err) {
-        return res.status(500).send("Error generating PDF");
-    }
-    res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader('Content-Disposition', 'attachment; filename="qr-code.pdf"');
-    res.send(buffer);  // Send PDF buffer directly
-});
+const options = { format: 'A4' };
+
+    // Generate PDF in memory
+    pdf.create(htmlContent, options).toBuffer((err, buffer) => {
+        if (err) {
+            console.error('Error generating PDF:', err);
+            return res.status(500).send('Error generating PDF');
+        }
+
+        // Send the PDF buffer as a downloadable file
+        res.set({
+            'Content-Type': 'application/pdf',
+            'Content-Disposition': 'attachment; filename="qrcode.pdf"',
+        });
+
+        // Send the PDF buffer as the response
+        res.send(buffer);
+    });
 
 });
 
