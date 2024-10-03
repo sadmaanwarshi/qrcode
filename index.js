@@ -1,6 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser"; 
-import puppeteer from 'puppeteer';
+import puppeteer from 'puppeteer-core';
+import { execSync } from 'child_process';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -123,8 +124,11 @@ app.post('/download', async (req, res) => {
     `;
 
     try {
-        // Launch Puppeteer
-        const browser = await puppeteer.launch();
+        // Launch Puppeteer with custom Chromium path
+        const browser = await puppeteer.launch({
+            executablePath: process.env.CHROME_BIN || '/usr/bin/google-chrome',
+            args: ['--no-sandbox', '--disable-setuid-sandbox'],
+        });
         const page = await browser.newPage();
         await page.setContent(html, { waitUntil: 'networkidle0' });
         
