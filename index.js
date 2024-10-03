@@ -1,7 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser"; 
-import puppeteer from 'puppeteer-core';
-import { execSync } from 'child_process';
+import puppeteer from 'puppeteer';
+import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -10,15 +10,14 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const port = 3000;
 
+// Set up body parser and static files
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Set the view engine to EJS
 app.set('view engine', 'ejs');
 
-// Set the views directory
-app.set('views', path.join(__dirname, 'views'));
-
+// Color map for QR code customization
 const colorMap = {
     "red": "FF0000",
     "green": "008000",
@@ -26,21 +25,24 @@ const colorMap = {
     "yellow": "FFFF00",
     "black": "000000",
     "white": "FFFFFF",
-};
+    // Add more colors as needed
+}
 
 // Routes
 app.get("/", (req, res) => {
-    res.render("index", { qrCodeUrl: null });
+    res.render("index", { qrCodeUrl: null });  // Initial render with no QR code
 });
 
 app.post('/generate', (req, res) => {
     const inputText = req.body.text;
     const response = req.body.fileUpload || "";
-    const colorName = req.body.colorchoice.toLowerCase();
-    const hexColor = colorMap[colorName] || "#000000";
-
+    const colorName = req.body.colorchoice.toLowerCase(); // Convert to lowercase for consistency
+    const hexColor = colorMap[colorName] || "#000000"; // Default to black if not found
+    
+    // Use external API to generate QR code
     const qrCodeUrl = `https://quickchart.io/qr?text=${encodeURIComponent(inputText)}&size=150&dark=${hexColor}&centerImageUrl=${encodeURIComponent(response)}`;
     
+    // Render the same page but now with the generated QR code
     res.render('index', { qrCodeUrl });
 });
 
@@ -55,7 +57,6 @@ app.post('/download', async (req, res) => {
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>
-            /* Add your styles here */
             body {
                 font-family: 'Arial', sans-serif;
                 margin: 0;
@@ -70,7 +71,7 @@ app.post('/download', async (req, res) => {
                 background-color: #fff;
                 border-radius: 12px;
                 box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-                border: 3px solid #000; 
+                border: 3px solid #000;
             }
             .main-title {
                 font-size: 30px;
@@ -108,6 +109,28 @@ app.post('/download', async (req, res) => {
                 color: #000;
                 font-weight: bold;
             }
+            @media (max-width: 768px) {
+                .main-title {
+                    font-size: 24px;
+                }
+                h1 {
+                    font-size: 22px;
+                }
+                .footer {
+                    font-size: 12px;
+                }
+            }
+            @media (max-width: 480px) {
+                .main-title {
+                    font-size: 20px;
+                }
+                h1 {
+                    font-size: 20px;
+                }
+                img {
+                    max-width: 80%; 
+                }
+            }
         </style>
     </head>
     <body>
@@ -116,7 +139,7 @@ app.post('/download', async (req, res) => {
             <h1>Your QR Code</h1>
             <img src="${qrCodeUrl}" alt="QR Code"/>
             <div class="footer">
-                <p>Generated with <span>Tech Titans QR Code Generator</span></p>
+                <p>Generated with <span> Tech Titans QR Code Generator</span></p>
             </div>
         </div>
     </body>
@@ -124,9 +147,9 @@ app.post('/download', async (req, res) => {
     `;
 
     try {
-        // Launch Puppeteer with custom Chromium path
+        // Launch Puppeteer with default settings
         const browser = await puppeteer.launch({
-            executablePath: process.env.CHROME_BIN || '/usr/bin/google-chrome',
+            headless: true,
             args: ['--no-sandbox', '--disable-setuid-sandbox'],
         });
         const page = await browser.newPage();
