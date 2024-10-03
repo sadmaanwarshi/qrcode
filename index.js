@@ -3,7 +3,10 @@ import bodyParser from "body-parser";
 import pdf from 'html-pdf';
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const app = express();
 const port = 3000;
 
@@ -14,7 +17,7 @@ if (!fs.existsSync(pdfDir)) {
 }
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Set the view engine to EJS
 app.set('view engine', 'ejs');
