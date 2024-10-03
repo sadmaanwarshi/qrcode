@@ -1,6 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser"; 
-import puppeteer from 'puppeteer';
+import puppeteer from 'puppeteer-core'; // Use puppeteer-core
+import chrome from 'chrome-aws-lambda'; // Import chrome-aws-lambda
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -27,7 +28,7 @@ const colorMap = {
     "black": "000000",
     "white": "FFFFFF",
     // Add more colors as needed
-}
+};
 
 // Routes
 app.get("/", (req, res) => {
@@ -148,10 +149,11 @@ app.post('/download', async (req, res) => {
     `;
 
     try {
-        // Launch Puppeteer with default settings
+        // Launch Puppeteer with chrome-aws-lambda settings
         const browser = await puppeteer.launch({
+            args: [...chrome.args, '--no-sandbox', '--disable-setuid-sandbox'],
+            executablePath: await chrome.executablePath,
             headless: true,
-            args: ['--no-sandbox', '--disable-setuid-sandbox'],
         });
         const page = await browser.newPage();
         await page.setContent(html, { waitUntil: 'networkidle0' });
