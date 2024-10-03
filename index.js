@@ -1,7 +1,6 @@
 import express from "express";
 import bodyParser from "body-parser"; 
 import pdf from 'html-pdf';
-import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -9,12 +8,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
 const port = 3000;
-
-// Ensure the 'pdfs' directory exists
-const pdfDir = path.resolve('pdfs');
-if (!fs.existsSync(pdfDir)) {
-    fs.mkdirSync(pdfDir);
-}
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -155,14 +148,14 @@ app.post('/download', (req, res) => {
 
     const options = { format: 'A4' };
 
-    // Generate PDF in memory
+    // Generate PDF in memory and send it as a downloadable file
     pdf.create(html, options).toBuffer((err, buffer) => {
         if (err) {
             console.error('Error generating PDF:', err);
             return res.status(500).send('Error generating PDF');
         }
 
-        // Send the PDF buffer as a downloadable file
+        // Set response headers for file download
         res.set({
             'Content-Type': 'application/pdf',
             'Content-Disposition': 'attachment; filename="qrcode.pdf"',
