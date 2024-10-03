@@ -2,7 +2,9 @@ import express from "express";
 import bodyParser from "body-parser"; 
 import pdf from 'html-pdf';
 import path from 'path';
+import puppeteer from 'puppeteer';
 import { fileURLToPath } from 'url';
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -44,7 +46,7 @@ app.post('/generate', (req, res) => {
     res.render('index', { qrCodeUrl });
 });
 
-app.post('/download', (req, res) => {
+app.post('/download', async (req, res) => {
     const qrCodeUrl = req.body.qrCodeUrl;
     const inputTitle = req.body.inputTitle;
 
@@ -148,13 +150,13 @@ app.post('/download', (req, res) => {
     </html>
     `;
 
-    const options = { format: 'A4' };
+    try {
+        const browser = await puppeteer.launch();
+        const page = await browser.newPage();
+        await page.setContent(html);
+        const buffer = await page.pdf({ format: 'A4' });
 
-    pdf.create(html, options).toBuffer((err, buffer) => {
-        if (err) {
-            console.error('Error generating PDF:', err);
-            return res.status(500).send('Error generating PDF');
-        }
+        await browser.close();
 
         res.set({
             'Content-Type': 'application/pdf',
@@ -162,7 +164,10 @@ app.post('/download', (req, res) => {
         });
 
         res.send(buffer);
-    });
+    } catch (err) {
+        console.error('Error generating PDF:', err);
+        return res.status(500).send('Error generating PDF');
+    }
 });
 
 // Start the server
