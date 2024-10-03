@@ -1,6 +1,6 @@
 import express from "express";
 import bodyParser from "body-parser"; 
-import pdf from 'html-pdf';
+import puppeteer from 'puppeteer';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -25,7 +25,6 @@ const colorMap = {
     "yellow": "FFFF00",
     "black": "000000",
     "white": "FFFFFF",
-    // Add more colors as needed
 };
 
 // Routes
@@ -44,11 +43,10 @@ app.post('/generate', (req, res) => {
     res.render('index', { qrCodeUrl });
 });
 
-app.post('/download', (req, res) => {
+app.post('/download', async (req, res) => {
     const qrCodeUrl = req.body.qrCodeUrl;
     const inputTitle = req.body.inputTitle;
 
-    // Enhanced HTML with styles for better PDF appearance
     const html = `
     <!DOCTYPE html>
     <html lang="en">
@@ -56,6 +54,7 @@ app.post('/download', (req, res) => {
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>
+            /* Add your styles here */
             body {
                 font-family: 'Arial', sans-serif;
                 margin: 0;
@@ -108,31 +107,6 @@ app.post('/download', (req, res) => {
                 color: #000;
                 font-weight: bold;
             }
-
-            /* Media Queries for Responsiveness */
-            @media (max-width: 768px) {
-                .main-title {
-                    font-size: 24px;
-                }
-                h1 {
-                    font-size: 22px;
-                }
-                .footer {
-                    font-size: 12px;
-                }
-            }
-
-            @media (max-width: 480px) {
-                .main-title {
-                    font-size: 20px;
-                }
-                h1 {
-                    font-size: 20px;
-                }
-                img {
-                    max-width: 80%; 
-                }
-            }
         </style>
     </head>
     <body>
@@ -148,21 +122,28 @@ app.post('/download', (req, res) => {
     </html>
     `;
 
-    const options = { format: 'A4' };
+    try {
+        // Launch Puppeteer
+        const browser = await puppeteer.launch();
+        const page = await browser.newPage();
+        await page.setContent(html, { waitUntil: 'networkidle0' });
+        
+        // Generate PDF
+        const pdfBuffer = await page.pdf({ format: 'A4' });
+        
+        await browser.close();
 
-    pdf.create(html, options).toBuffer((err, buffer) => {
-        if (err) {
-            console.error('Error generating PDF:', err);
-            return res.status(500).send('Error generating PDF');
-        }
-
+        // Send the PDF buffer as a downloadable file
         res.set({
             'Content-Type': 'application/pdf',
             'Content-Disposition': 'attachment; filename="qrcode.pdf"',
         });
 
-        res.send(buffer);
-    });
+        res.send(pdfBuffer);
+    } catch (error) {
+        console.error('Error generating PDF:', error);
+        res.status(500).send('Error generating PDF');
+    }
 });
 
 // Start the server
