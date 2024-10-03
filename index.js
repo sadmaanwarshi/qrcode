@@ -15,6 +15,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Set the view engine to EJS
 app.set('view engine', 'ejs');
 
+// Set the views directory
+app.set('views', path.join(__dirname, 'views'));
+
 const colorMap = {
     "red": "FF0000",
     "green": "008000",
@@ -23,23 +26,21 @@ const colorMap = {
     "black": "000000",
     "white": "FFFFFF",
     // Add more colors as needed
-}
+};
 
 // Routes
 app.get("/", (req, res) => {
-    res.render("index", { qrCodeUrl: null });  // Initial render with no QR code
+    res.render("index", { qrCodeUrl: null });
 });
 
 app.post('/generate', (req, res) => {
     const inputText = req.body.text;
     const response = req.body.fileUpload || "";
-    const colorName = req.body.colorchoice.toLowerCase(); // Convert to lowercase for consistency
-    const hexColor = colorMap[colorName] || "#000000"; // Default to black if not found
+    const colorName = req.body.colorchoice.toLowerCase();
+    const hexColor = colorMap[colorName] || "#000000";
 
-    // Use external API to generate QR code
     const qrCodeUrl = `https://quickchart.io/qr?text=${encodeURIComponent(inputText)}&size=150&dark=${hexColor}&centerImageUrl=${encodeURIComponent(response)}`;
     
-    // Render the same page but now with the generated QR code
     res.render('index', { qrCodeUrl });
 });
 
@@ -62,14 +63,14 @@ app.post('/download', (req, res) => {
                 background-color: #fff;
             }
             .container {
-                width: 90%;
+                width: 90%; 
                 max-width: 650px;
                 margin: 40px auto;
                 padding: 30px;
                 background-color: #fff;
                 border-radius: 12px;
                 box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-                border: 3px solid #000;
+                border: 3px solid #000; 
             }
             .main-title {
                 font-size: 30px;
@@ -88,10 +89,10 @@ app.post('/download', (req, res) => {
             img {
                 display: block;
                 margin: 20px auto;
-                width: 100%;
-                max-width: 300px;
+                width: 100%; 
+                max-width: 300px; 
                 height: auto;
-                border: 2px solid #000;
+                border: 2px solid #000; 
                 border-radius: 8px;
             }
             .footer {
@@ -108,6 +109,7 @@ app.post('/download', (req, res) => {
                 font-weight: bold;
             }
 
+            /* Media Queries for Responsiveness */
             @media (max-width: 768px) {
                 .main-title {
                     font-size: 24px;
@@ -128,7 +130,7 @@ app.post('/download', (req, res) => {
                     font-size: 20px;
                 }
                 img {
-                    max-width: 80%;
+                    max-width: 80%; 
                 }
             }
         </style>
@@ -148,20 +150,17 @@ app.post('/download', (req, res) => {
 
     const options = { format: 'A4' };
 
-    // Generate PDF in memory and send it as a downloadable file
     pdf.create(html, options).toBuffer((err, buffer) => {
         if (err) {
             console.error('Error generating PDF:', err);
             return res.status(500).send('Error generating PDF');
         }
 
-        // Set response headers for file download
         res.set({
             'Content-Type': 'application/pdf',
             'Content-Disposition': 'attachment; filename="qrcode.pdf"',
         });
 
-        // Send the PDF buffer as the response
         res.send(buffer);
     });
 });
